@@ -52,11 +52,25 @@ export default function Index() {
   const deposit = async () => {
     try {
       if (window.ethereum && web3) {
+        // const tx = {
+        //   from: account,
+        //   gas: web3.utils.toHex(21000),
+        //   to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
+        //   value: web3.utils.toWei("0.001", "ether"),
+        // };
+        // console.log(tx);
+        // const txHash = await window.ethereum.request({
+        //   method: "eth_sendTransaction",
+        //   params: [tx],
+        // });
+
+        // console.log(txHash);
+
         const txParams = {
           nonce: await web3.eth.getTransactionCount(account),
           gasPrice: web3.utils.toHex(20000000000), // 20 gwei
           gas: web3.utils.toHex(21000), // 21k gas
-          to: "0xC67DE0e6702eb242d729a37dF8f5C4182b9E9730",
+          to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
           value: web3.utils.toWei("0.1", "ether"),
           // data: "0x", // Optional, set this if you are sending a contract call
         };
@@ -71,6 +85,8 @@ export default function Index() {
         });
 
         console.log(response);
+
+        alert("success deposit");
 
         setShowPrivateKeyModal(false);
       } else {
