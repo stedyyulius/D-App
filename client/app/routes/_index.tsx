@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { useCallback, useEffect, useState } from "react";
 import { RegisteredSubscription } from "node_modules/web3-eth/lib/types/web3_eth";
-import { PrivateKeyModal } from "../components/PrivateKeyModal";
+import { DepositModal } from "../components/DepositModal";
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,6 +18,7 @@ export default function Index() {
   const [web3, setWeb3] = useState<Web3<RegisteredSubscription> | null>(null);
   const [privateKey, setPrivateKey] = useState("");
   const [showPrivateKeyModal, setShowPrivateKeyModal] = useState(false);
+  const [depositAmount, setDepositAmount] = useState("");
 
   const connectMetaMask = useCallback(async () => {
     if (window.ethereum) {
@@ -56,7 +57,7 @@ export default function Index() {
         //   from: account,
         //   gas: web3.utils.toHex(21000),
         //   to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
-        //   value: web3.utils.toWei("0.001", "ether"),
+        //   value: web3.utils.toWei(+depositAmount / 1000, "ether"),
         // };
         // console.log(tx);
         // const txHash = await window.ethereum.request({
@@ -71,7 +72,7 @@ export default function Index() {
           gasPrice: web3.utils.toHex(20000000000), // 20 gwei
           gas: web3.utils.toHex(21000), // 21k gas
           to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
-          value: web3.utils.toWei("0.1", "ether"),
+          value: web3.utils.toWei(depositAmount, "ether"),
           // data: "0x", // Optional, set this if you are sending a contract call
         };
 
@@ -99,12 +100,12 @@ export default function Index() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <PrivateKeyModal
+      <DepositModal
         show={showPrivateKeyModal}
         setShow={setShowPrivateKeyModal}
         setPrivateKey={setPrivateKey}
-        privateKey={privateKey}
         onSubmit={deposit}
+        setDepositAmount={setDepositAmount}
       />
       <div className="flex flex-col items-center gap-16">
         <header className="flex flex-col items-center gap-9">

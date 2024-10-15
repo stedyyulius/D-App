@@ -3,12 +3,12 @@ import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 type PrivateKeyModalProps = {
   show: boolean;
   setShow: (value: boolean) => void;
-  privateKey: string;
   setPrivateKey: (value: string) => void;
+  setDepositAmount: (value: string) => void;
   onSubmit: () => void;
 };
 
-export const PrivateKeyModal = (props: PrivateKeyModalProps) => {
+export const DepositModal = (props: PrivateKeyModalProps) => {
   return (
     <Modal show={props.show} onHide={() => props.setShow(false)}>
       <Modal.Body>
@@ -18,6 +18,12 @@ export const PrivateKeyModal = (props: PrivateKeyModalProps) => {
             aria-label="Private Key"
             aria-describedby="basic-addon1"
             onChange={(e) => props.setPrivateKey(e.target.value)}
+          />
+          <Form.Control
+            placeholder="Enter Amount in ETH"
+            aria-label="Deposit Amount"
+            aria-describedby="basic-addon1"
+            onChange={(e) => props.setDepositAmount(e.target.value)}
           />
         </InputGroup.Text>
       </Modal.Body>
