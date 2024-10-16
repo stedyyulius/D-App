@@ -18,39 +18,54 @@ type PrivateKeyModalProps = {
 export const DepositModal = (props: PrivateKeyModalProps) => {
   const [gasFeeInEther, setGasFeeInEther] = useState(0);
 
+  const {
+    show,
+    setShow,
+    setPrivateKey,
+    setDepositAmount,
+    onSubmit,
+    gasPrice,
+    gasLimit,
+    web3,
+    depositAmount,
+  } = props;
+
   useEffect(() => {
-    if (props.web3) {
-      const gasPriceInWei = props.web3.utils.toBigInt(props.gasPrice); // 20 gwei
-      const gasLimit = props.web3.utils.toBigInt(props.gasLimit); // 21k gas
-      const gasFeeInWei = gasPriceInWei * gasLimit;
-      setGasFeeInEther(+props.web3.utils.fromWei(gasFeeInWei, "ether"));
+    if (web3) {
+      const gasPriceInWei = web3.utils.toBigInt(gasPrice);
+      const gasPriceLimit = web3.utils.toBigInt(gasLimit);
+      const gasFeeInWei = gasPriceInWei * gasPriceLimit;
+      setGasFeeInEther(+web3.utils.fromWei(gasFeeInWei, "ether"));
     }
-  }, [props.depositAmount, props.gasPrice, props.web3, props.gasLimit]);
+  }, [depositAmount, gasPrice, web3, gasLimit]);
 
   return (
-    <Modal show={props.show} onHide={() => props.setShow(false)}>
+    <Modal show={show} onHide={() => setShow(false)}>
       <Modal.Body>
         <InputGroup.Text className="mb-3">
           <Form.Control
             placeholder="Enter Your Private Key"
             aria-label="Private Key"
             aria-describedby="basic-addon1"
-            onChange={(e) => props.setPrivateKey(e.target.value)}
+            onChange={(e) => setPrivateKey(e.target.value)}
           />
           <Form.Control
             placeholder="Enter Amount in ETH"
             aria-label="Deposit Amount"
             aria-describedby="basic-addon1"
-            onChange={(e) => props.setDepositAmount(e.target.value)}
+            onChange={(e) => setDepositAmount(e.target.value)}
           />
         </InputGroup.Text>
         <p>Gas Fee: {gasFeeInEther}</p>
+        <p className="text-red-500">
+          Total Price in ETH: {gasFeeInEther + +depositAmount}
+        </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => props.setShow(false)}>
+        <Button variant="secondary" onClick={() => setShow(false)}>
           Close
         </Button>
-        <Button variant="primary" onClick={props.onSubmit}>
+        <Button variant="primary" onClick={onSubmit}>
           Submit
         </Button>
       </Modal.Footer>
