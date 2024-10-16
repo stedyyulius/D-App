@@ -13,6 +13,9 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const gasPrice = 20000000000;
+const gasLimit = 21000;
+
 export default function Index() {
   const [account, setAccount] = useState("");
   const [web3, setWeb3] = useState<Web3<RegisteredSubscription> | null>(null);
@@ -69,12 +72,14 @@ export default function Index() {
 
         const txParams = {
           nonce: await web3.eth.getTransactionCount(account),
-          gasPrice: web3.utils.toHex(20000000000), // 20 gwei
-          gas: web3.utils.toHex(21000), // 21k gas
+          gasPrice: web3.utils.toHex(gasLimit), // 20 gwei
+          gas: web3.utils.toHex(gasPrice), // 21k gas limit
           to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
           value: web3.utils.toWei(depositAmount, "ether"),
           // data: "0x", // Optional, set this if you are sending a contract call
         };
+
+        // console.log(precise gas fee)
 
         const signedTx = await web3.eth.accounts.signTransaction(
           txParams,
@@ -106,6 +111,10 @@ export default function Index() {
         setPrivateKey={setPrivateKey}
         onSubmit={deposit}
         setDepositAmount={setDepositAmount}
+        gasLimit={gasLimit}
+        gasPrice={gasPrice}
+        web3={web3}
+        depositAmount={depositAmount}
       />
       <div className="flex flex-col items-center gap-16">
         <header className="flex flex-col items-center gap-9">
