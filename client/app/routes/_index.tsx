@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const gasPrice = 20000000000;
+const gasPrice = 10000000000;
 const gasLimit = 21000;
 
 export default function Index() {
@@ -72,14 +72,14 @@ export default function Index() {
 
         const txParams = {
           nonce: await web3.eth.getTransactionCount(account),
-          gasPrice: web3.utils.toHex(gasLimit), // 20 gwei
-          gas: web3.utils.toHex(gasPrice), // 21k gas limit
+          gasPrice: gasPrice,
+          gas: gasLimit,
           to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
-          value: web3.utils.toWei(depositAmount, "ether"),
+          value: web3.utils.toWei(+depositAmount / 1000, "ether"),
           // data: "0x", // Optional, set this if you are sending a contract call
         };
 
-        // console.log(precise gas fee)
+        console.log(txParams);
 
         const signedTx = await web3.eth.accounts.signTransaction(
           txParams,
