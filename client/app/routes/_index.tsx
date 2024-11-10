@@ -75,7 +75,7 @@ export default function Index() {
           gasPrice: gasPrice,
           gas: gasLimit,
           to: "0xd91ac8364e144341C1928C8302cA042DE1B8f935",
-          value: web3.utils.toWei(+depositAmount / 1000, "ether"),
+          value: web3.utils.toWei(+depositAmount, "ether"),
           // data: "0x", // Optional, set this if you are sending a contract call
         };
 
